@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATELIER — магазин одежды</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#ece7df; --paper:#f6f3ee; --ink:#211d18; --muted:#8a8378;
+  --accent:#9a7b4f; --accent-soft:rgba(154,123,79,.25);
+  --line:rgba(33,29,24,.14);
+  --serif:'Cormorant Garamond',serif; --sans:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--cream)}
+h2{font-family:var(--serif);font-size:clamp(32px,4.5vw,52px);font-weight:600;line-height:1.1}
+.sec-num{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:14px}
+.reveal{opacity:0;transform:translateY(36px);transition:.9s cubic-bezier(.2,.6,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* NAV */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 5vw;transition:.4s;border-bottom:1px solid transparent}
+.topbar.scrolled{background:rgba(246,243,238,.94);backdrop-filter:blur(14px);padding:12px 5vw;border-bottom-color:var(--line)}
+.logo{font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:.3em}
+nav ul{display:flex;gap:34px;list-style:none}
+nav a{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:.3s}
+nav a:hover{color:var(--ink)}
+.nav-icons{display:flex;gap:20px;align-items:center}
+.nav-icons button{background:none;border:none;cursor:pointer;color:var(--ink);position:relative;padding:4px}
+.cart-count{position:absolute;top:-6px;right:-8px;background:var(--ink);color:var(--cream);font-size:10px;
+  width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
+.burger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;z-index:110}
+.burger span{width:26px;height:1.5px;background:var(--ink);transition:.3s}
+
+/* HERO */
+.hero{min-height:92vh;position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  padding:150px 5vw 80px;gap:40px;background:var(--paper)}
+.hero-txt .hero-tag{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+.hero h1{font-family:var(--serif);font-size:clamp(48px,6.5vw,86px);font-weight:600;line-height:1.05}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero p{color:var(--muted);margin:26px 0 38px;max-width:420px;font-size:15px}
+.btn{display:inline-block;padding:15px 38px;background:var(--ink);color:var(--cream);font-size:11px;
+  letter-spacing:.24em;text-transform:uppercase;transition:.35s;cursor:pointer;border:1px solid var(--ink)}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--cream)}
+.hero-img{position:relative}
+.hero-img img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.hero-img::after{content:'';position:absolute;inset:0;border:1px solid var(--accent-soft);transform:translate(18px,-18px);pointer-events:none}
+.hero-strip{grid-column:1/-1;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:26px;margin-top:20px}
+.hero-strip span{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+
+/* CATEGORIES */
+section{padding:100px 5vw}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.cat{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer;background:#ddd6cb}
+.cat img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.6,.2,1)}
+.cat:hover img{transform:scale(1.06)}
+.cat-label{position:absolute;inset:auto 0 0 0;padding:28px 24px;background:linear-gradient(transparent,rgba(33,29,24,.75));color:var(--cream)}
+.cat-label b{font-family:var(--serif);font-size:26px;font-weight:600;display:block}
+.cat-label span{font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:.8}
+
+/* PRODUCTS */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head p{max-width:340px;color:var(--muted);font-size:14px}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px}
+.prod{background:var(--paper);border:1px solid var(--line);transition:.4s}
+.prod:hover{transform:translateY(-6px);box-shadow:0 24px 40px -20px rgba(33,29,24,.25)}
+.prod-img{position:relative;overflow:hidden;aspect-ratio:3/4;background:#ddd6cb}
+.prod-img img{width:100%;height:100%;object-fit:cover;transition:.7s}
+.prod:hover .prod-img img{transform:scale(1.05)}
+.badge{position:absolute;top:14px;left:14px;background:var(--ink);color:var(--cream);font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;padding:6px 12px}
+.add-btn{position:absolute;inset:auto 0 0 0;padding:14px;background:var(--ink);color:var(--cream);border:none;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;transform:translateY(100%);transition:.35s;font-family:var(--sans)}
+.prod:hover .add-btn{transform:none}
+.add-btn:hover{background:var(--accent)}
+.prod-info{padding:18px 18px 22px}
+.prod-info b{font-family:var(--serif);font-size:19px;font-weight:600;display:block;line-height:1.2}
+.prod-info .cat-p{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin:6px 0 10px}
+.price{font-family:var(--serif);font-size:19px;font-weight:600}
+.price s{color:var(--muted);font-weight:400;margin-left:8px;font-size:15px}
+
+/* BENEFITS */
+.benefits{background:var(--paper)}
+.bene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:56px}
+.bene{border-top:1px solid var(--ink);padding-top:26px}
+.bene svg{margin-bottom:18px;stroke:var(--accent)}
+.bene b{font-family:var(--serif);font-size:23px;font-weight:600;display:block;margin-bottom:8px}
+.bene p{font-size:14px;color:var(--muted)}
+
+/* NEWSLETTER */
+.news{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.news-form{display:flex;border-bottom:1px solid var(--ink)}
+.news-form input{flex:1;background:transparent;border:none;outline:none;padding:16px 4px;font-size:15px;font-family:var(--sans);color:var(--ink)}
+.news-form input::placeholder{color:var(--muted)}
+.news-form button{background:none;border:none;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  cursor:pointer;color:var(--ink);padding:0 8px;font-family:var(--sans)}
+.news-ok{color:var(--accent);font-size:14px;margin-top:14px;display:none}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--cream);padding:70px 5vw 36px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:54px}
+.foot-grid h4{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;font-weight:500}
+.foot-grid p,.foot-grid a{font-size:14px;color:rgba(236,231,223,.6);display:block;margin-bottom:10px;transition:.3s}
+.foot-grid a:hover{color:var(--cream)}
+.foot-logo{font-family:var(--serif);font-size:28px;font-weight:700;letter-spacing:.3em;margin-bottom:16px}
+.copy{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;
+  border-top:1px solid rgba(236,231,223,.15);font-size:12px;color:rgba(236,231,223,.5)}
+
+/* CART TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,140%);background:var(--ink);color:var(--cream);
+  padding:16px 30px;font-size:13px;letter-spacing:.1em;transition:.4s;z-index:200}
+.toast.show{transform:translate(-50%,0)}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;inset:0;background:rgba(246,243,238,.98);z-index:105;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;opacity:0;pointer-events:none;transition:.4s}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{font-family:var(--serif);font-size:34px;padding:10px}
+
+@media(max-width:1000px){
+  nav{display:none}
+  .burger{display:flex}
+  .hero{grid-template-columns:1fr;padding-top:120px}
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .bene-grid{grid-template-columns:1fr;gap:36px}
+  .news{grid-template-columns:1fr;gap:34px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .add-btn{transform:none;position:static;width:100%}
+}
+@media(max-width:560px){
+  .prod-grid,.cat-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <a href="#" class="logo">ATELIER</a>
+  <nav>
+    <ul>
+      <li><a href="#catalog">Каталог</a></li>
+      <li><a href="#about">О магазине</a></li>
+      <li><a href="#delivery">Доставка</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+  </nav>
+  <div class="nav-icons">
+    <button aria-label="Поиск">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    </button>
+    <button aria-label="Корзина" id="cartBtn">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7h14l-1.5 11h-11L4 4H1"/><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mmenu">
+  <a href="#catalog">Каталог</a>
+  <a href="#about">О магазине</a>
+  <a href="#delivery">Доставка</a>
+  <a href="#contacts">Контакты</a>
+</div>
+
+<section class="hero">
+  <div class="hero-txt">
+    <div class="hero-tag">Новая коллекция · FW 26</div>
+    <h1>Стиль.<br>Качество.<br><em>Вы.</em></h1>
+    <p>Базовый гардероб из натуральных материалов. Небольшие партии, честные цены, вещи, которые живут годами.</p>
+    <a href="#catalog" class="btn">Перейти в каталог →</a>
+  </div>
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80" alt="Коллекция">
+  </div>
+  <div class="hero-strip">
+    <span>Бесплатная доставка от 5 000 ₽</span>
+    <span>Возврат 30 дней</span>
+    <span>Натуральные ткани</span>
+    <span>Свой пошив</span>
+  </div>
+</section>
+
+<section id="catalog">
+  <div class="sec-head reveal">
+    <div>
+      <span class="sec-num">01 / Категории</span>
+      <h2>Популярные категории</h2>
+    </div>
+    <p>Три линии: повседневная, верхняя одежда и аксессуары.</p>
+  </div>
+  <div class="cat-grid reveal">
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80" alt="Мужское" loading="lazy">
+      <div class="cat-label"><b>Мужское</b><span>124 товара</span></div>
+    </div>
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80" alt="Женское" loading="lazy">
+      <div class="cat-label"><b>Женское</b><span>168 товаров</span></div>
+    </div>
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80" alt="Аксессуары" loading="lazy">
+      <div class="cat-label"><b>Аксессуары</b><span>56 товаров</span></div>
+    </div>
+  </div>
+
+  <div class="sec-head reveal" style="margin-top:110px">
+    <div>
+      <span class="sec-num">02 / Товары</span>
+      <h2>Хиты продаж</h2>
+    </div>
+    <p>Обновление ассортимента — каждые две недели.</p>
+  </div>
+  <div class="prod-grid reveal">
+    <div class="prod">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80" alt="Футболка" loading="lazy">
+        <span class="badge">Хит</span>
+        <button class="add-btn">В корзину</button>
+      </div>
+      <div class="prod-info"><b>Футболка «Base»</b><span class="cat-p">Пима-хлопок · Белый</span><span class="price">3 200 ₽</span></div>
+    </div>
+    <div class="prod">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80" alt="Куртка" loading="lazy">
+        <span class="badge">−20%</span>
+        <button class="add-btn">В корзину</button>
+      </div>
+      <div class="prod-info"><b>Куртка кожаная</b><span class="cat-p">Натуральная кожа · Чёрный</span><span class="price">18 400 ₽ <s>23 000 ₽</s></span></div>
+    </div>
+    <div class="prod">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=700&q=80" alt="Пальто" loading="lazy">
+        <button class="add-btn">В корзину</button>
+      </div>
+      <div class="prod-info"><b>Пальто «Milano»</b><span class="cat-p">Шерсть 80% · Бежевый</span><span class="price">21 500 ₽</span></div>
+    </div>
+    <div class="prod">
+      <div class="prod-img">
+        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=700&q=80" alt="Кроссовки" loading="lazy">
+        <span class="badge">Новинка</span>
+        <button class="add-btn">В корзину</button>
+      </div>
+      <div class="prod-info"><b>Кроссовки «Court»</b><span class="cat-p">Кожа · Молочные</span><span class="price">9 800 ₽</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits" id="about">
+  <div class="reveal">
+    <span class="sec-num">03 / Почему мы</span>
+    <h2>Магазин, которому доверяют</h2>
+  </div>
+  <div class="bene-grid reveal">
+    <div class="bene">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <b>Безопасная оплата</b>
+      <p>Картой, СБП или при получении. Данные защищены протоколом 3-D Secure.</p>
+    </div>
+    <div class="bene">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+      <b>Быстрая доставка</b>
+      <p>По Москве — курьером в день заказа. По России — СДЭК от 2 дней, бесплатно от 5 000 ₽.</p>
+    </div>
+    <div class="bene">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      <b>Возврат 30 дней</b>
+      <p>Не подошло — вернём деньги без вопросов. Оформление возврата занимает 2 минуты.</p>
+    </div>
+  </div>
+</section>
+
+<section class="news reveal" id="delivery">
+  <div>
+    <span class="sec-num">04 / Рассылка</span>
+    <h2>Скидка 10%<br>на первый заказ</h2>
+    <p style="color:var(--muted);margin-top:20px;max-width:400px;font-size:15px">Подпишитесь — пришлём промокод и будем сообщать о новых коллекциях. Без спеха, два письма в месяц.</p>
+  </div>
+  <div>
+    <form class="news-form" id="newsForm">
+      <input type="email" placeholder="Ваш e-mail" required>
+      <button type="submit">Подписаться</button>
+    </form>
+    <div class="news-ok" id="newsOk">✓ Готово! Промокод уже летит на почту</div>
+  </div>
+</section>
+
+<footer id="contacts">
+  <div class="foot-grid">
+    <div>
+      <div class="foot-logo">ATELIER</div>
+      <p>Магазин одежды из натуральных тканей.<br>Москва · отправка по всей России.</p>
+    </div>
+    <div>
+      <h4>Покупателям</h4>
+      <a href="#catalog">Каталог</a>
+      <a href="#delivery">Доставка и оплата</a>
+      <a href="#">Возврат</a>
+      <a href="#">Таблица размеров</a>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <a href="tel:+74950000002">+7 (495) 000-00-02</a>
+      <a href="mailto:care@atelier.shop">care@atelier.shop</a>
+      <p>Москва, Столешников пер., 7</p>
+    </div>
+    <div>
+      <h4>Соцсети</h4>
+      <a href="#">Telegram</a>
+      <a href="#">Instagram</a>
+      <a href="#">VK</a>
+    </div>
+  </div>
+  <div class="copy">
+    <span>© 2026 ATELIER</span>
+    <span>Дизайн и разработка — Danik</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Добавлено в корзину</div>
+
+<script>
+const tb=document.getElementById('topbar');
+addEventListener('scroll',()=>tb.classList.toggle('scrolled',scrollY>60));
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const burger=document.getElementById('burger'),mm=document.getElementById('mmenu');
+burger.addEventListener('click',()=>mm.classList.toggle('open'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+// fake cart
+let cart=0;
+const toast=document.getElementById('toast');
+document.querySelectorAll('.add-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.getElementById('cartCount').textContent=++cart;
+  toast.classList.add('show');
+  clearTimeout(window.__t);
+  window.__t=setTimeout(()=>toast.classList.remove('show'),1800);
+}));
+
+document.getElementById('newsForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('newsOk').style.display='block';
+  e.target.reset();
+});
+</script>
+</body>
+</html>

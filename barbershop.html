@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRUT — барбершоп</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a; --bg2:#101010; --card:#141414;
+  --white:#f2f2f2; --gray:#9a9a9a; --dark-gray:#3a3a3a;
+  --line:rgba(242,242,242,.14);
+  --head:'Oswald',sans-serif; --sans:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.65;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--white);color:#0a0a0a}
+
+/* NAV */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 5vw;transition:.4s;border-bottom:1px solid transparent}
+.topbar.scrolled{background:rgba(10,10,10,.93);backdrop-filter:blur(14px);padding:13px 5vw;border-bottom-color:var(--line)}
+.logo{font-family:var(--head);font-size:24px;font-weight:600;letter-spacing:.3em}
+nav ul{display:flex;gap:38px;list-style:none}
+nav a{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray);transition:.3s}
+nav a:hover{color:var(--white)}
+.btn{display:inline-block;padding:13px 32px;border:1px solid var(--white);color:var(--white);
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;transition:.35s;cursor:pointer;background:transparent;font-family:var(--head);font-weight:400}
+.btn:hover{background:var(--white);color:#0a0a0a}
+.burger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;z-index:110}
+.burger span{width:26px;height:2px;background:var(--white);transition:.3s}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:140px 5vw 100px}
+.hero-bg{position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(10,10,10,.94) 0%,rgba(10,10,10,.55) 55%,rgba(10,10,10,.85) 100%),
+  url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1800&q=80') center/cover;
+  filter:grayscale(1)}
+.hero-inner{position:relative;z-index:2;max-width:640px}
+.hero-tag{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gray);margin-bottom:24px}
+.hero h1{font-family:var(--head);font-size:clamp(52px,9vw,110px);font-weight:600;line-height:1.02;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--white)}
+.hero p{color:var(--gray);margin:28px 0 40px;max-width:440px;font-size:15px}
+.hero-meta{display:flex;gap:44px;margin-top:60px;flex-wrap:wrap}
+.hero-meta div b{font-family:var(--head);font-size:20px;font-weight:500;letter-spacing:.06em;display:block}
+.hero-meta div span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gray)}
+
+/* MARQUEE */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;background:var(--bg2)}
+.marquee-track{display:flex;gap:60px;white-space:nowrap;animation:mq 22s linear infinite;width:max-content}
+.marquee-track span{font-family:var(--head);font-size:15px;letter-spacing:.4em;text-transform:uppercase;color:var(--gray)}
+.marquee-track span::after{content:'✦';margin-left:60px;color:var(--dark-gray)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:110px 5vw}
+.sec-head{margin-bottom:60px}
+.sec-num{font-size:11px;letter-spacing:.35em;color:var(--gray);display:block;margin-bottom:16px}
+h2{font-family:var(--head);font-size:clamp(32px,4.5vw,52px);font-weight:500;text-transform:uppercase;letter-spacing:.04em;line-height:1.1}
+.reveal{opacity:0;transform:translateY(36px);transition:.9s cubic-bezier(.2,.6,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* SERVICES */
+.srv-list{border-top:1px solid var(--line)}
+.srv-row{display:grid;grid-template-columns:70px 1fr 1fr auto auto;gap:24px;align-items:center;padding:30px 10px;
+  border-bottom:1px solid var(--line);transition:.35s;cursor:pointer}
+.srv-row:hover{background:var(--card);padding-left:24px}
+.srv-idx{font-family:var(--head);color:var(--dark-gray);font-size:15px}
+.srv-name{font-family:var(--head);font-size:24px;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.srv-desc{color:var(--gray);font-size:13px}
+.srv-time{font-size:12px;color:var(--gray);letter-spacing:.1em;text-transform:uppercase}
+.srv-price{font-family:var(--head);font-size:24px;font-weight:500}
+.srv-row:hover .srv-price{color:var(--white)}
+
+/* MASTERS */
+.masters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.master{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--card)}
+.master img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.8);transition:.7s}
+.master:hover img{filter:grayscale(1) brightness(1);transform:scale(1.05)}
+.master-info{position:absolute;left:0;right:0;bottom:0;padding:26px 22px;background:linear-gradient(transparent,rgba(10,10,10,.95))}
+.master-info b{font-family:var(--head);font-size:22px;font-weight:500;letter-spacing:.06em;display:block}
+.master-info span{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gray)}
+
+/* QUOTE */
+.quote{background:var(--bg2);text-align:center}
+.quote blockquote{font-family:var(--head);font-size:clamp(24px,3.4vw,40px);font-weight:300;letter-spacing:.04em;
+  max-width:880px;margin:0 auto 26px;line-height:1.4}
+.quote blockquote::before{content:'«';color:var(--dark-gray)}
+.quote blockquote::after{content:'»';color:var(--dark-gray)}
+.quote cite{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gray);font-style:normal}
+
+/* BOOKING */
+.booking{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.booking-info p{color:var(--gray);margin:24px 0 36px;max-width:440px;font-size:15px}
+.perks{display:grid;gap:14px}
+.perk{display:flex;align-items:center;gap:16px;font-size:14px;color:var(--gray)}
+.perk::before{content:'—';color:var(--white)}
+form{background:var(--card);padding:46px;border:1px solid var(--line)}
+.form-field{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.form-field label{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gray)}
+.form-field input,.form-field select{background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--white);
+  padding:10px 2px;font-family:var(--sans);font-size:15px;outline:none;transition:.3s;border-radius:0}
+.form-field input:focus{border-color:var(--white)}
+.form-field select option{background:var(--card)}
+form .btn{width:100%;margin-top:10px}
+.form-ok{text-align:center;color:var(--white);font-size:14px;margin-top:18px;display:none;letter-spacing:.06em}
+
+/* FOOTER */
+footer{padding:70px 5vw 36px;border-top:1px solid var(--line)}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:54px}
+.foot-grid h4{font-family:var(--head);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gray);margin-bottom:20px;font-weight:400}
+.foot-grid p,.foot-grid a{font-size:14px;color:var(--gray);display:block;margin-bottom:10px;transition:.3s}
+.foot-grid a:hover{color:var(--white)}
+.copy{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--gray)}
+
+/* MOBILE MENU */
+.mobile-menu{position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:105;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;opacity:0;pointer-events:none;transition:.4s}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{font-family:var(--head);font-size:32px;padding:10px;text-transform:uppercase;letter-spacing:.08em}
+
+@media(max-width:1000px){
+  nav,.topbar .btn{display:none}
+  .burger{display:flex}
+  .srv-row{grid-template-columns:44px 1fr auto;row-gap:6px}
+  .srv-desc{grid-column:2/4}
+  .masters-grid{grid-template-columns:repeat(2,1fr)}
+  .booking{grid-template-columns:1fr;gap:50px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  form{padding:30px}
+}
+@media(max-width:560px){
+  .masters-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <a href="#" class="logo">BRUT</a>
+  <nav>
+    <ul>
+      <li><a href="#services">Услуги</a></li>
+      <li><a href="#masters">Мастера</a></li>
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+  </nav>
+  <a href="#booking" class="btn">Записаться</a>
+  <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mobile-menu" id="mmenu">
+  <a href="#services">Услуги</a>
+  <a href="#masters">Мастера</a>
+  <a href="#about">О нас</a>
+  <a href="#contacts">Контакты</a>
+  <a href="#booking" style="border:1px solid var(--white);padding:10px 30px;margin-top:14px">Записаться</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Барбершоп · Москва</div>
+    <h1>Стрижка.<br>Борода.<br><em>Стиль.</em></h1>
+    <p>Место, где мужская стрижка — ритуал. Точность, техника и напиток в придачу. Без спешки и лишних слов.</p>
+    <a href="#booking" class="btn">Записаться онлайн</a>
+    <div class="hero-meta">
+      <div><b>8 лет</b><span>опыта команды</span></div>
+      <div><b>12 000+</b><span>стрижек</span></div>
+      <div><b>4.9</b><span>рейтинг</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Стрижка</span><span>Борода</span><span>Опасное бритьё</span><span>Укладка</span><span>Камуфляж седины</span><span>Уход</span>
+    <span>Стрижка</span><span>Борода</span><span>Опасное бритьё</span><span>Укладка</span><span>Камуфляж седины</span><span>Уход</span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 / Услуги</span>
+    <h2>Что мы делаем</h2>
+  </div>
+  <div class="srv-list reveal">
+    <div class="srv-row">
+      <span class="srv-idx">01</span><span class="srv-name">Мужская стрижка</span>
+      <span class="srv-desc">Консультация, мытьё, стайлинг в комплекте</span>
+      <span class="srv-time">60 мин</span><span class="srv-price">2 000 ₽</span>
+    </div>
+    <div class="srv-row">
+      <span class="srv-idx">02</span><span class="srv-name">Стрижка бороды</span>
+      <span class="srv-desc">Контур, ножницы, масло для бороды</span>
+      <span class="srv-time">40 мин</span><span class="srv-price">1 500 ₽</span>
+    </div>
+    <div class="srv-row">
+      <span class="srv-idx">03</span><span class="srv-name">Опасное бритьё</span>
+      <span class="srv-desc">Горячее полотенце, классическая бритва</span>
+      <span class="srv-time">45 мин</span><span class="srv-price">1 800 ₽</span>
+    </div>
+    <div class="srv-row">
+      <span class="srv-idx">04</span><span class="srv-name">Стрижка + борода</span>
+      <span class="srv-desc">Комплекс со скидкой</span>
+      <span class="srv-time">90 мин</span><span class="srv-price">3 100 ₽</span>
+    </div>
+    <div class="srv-row">
+      <span class="srv-idx">05</span><span class="srv-name">Камуфляж седины</span>
+      <span class="srv-desc">Тонирование под натуральный тон</span>
+      <span class="srv-time">30 мин</span><span class="srv-price">1 200 ₽</span>
+    </div>
+    <div class="srv-row">
+      <span class="srv-idx">06</span><span class="srv-name">Детская стрижка</span>
+      <span class="srv-desc">Мальчики до 12 лет, терпеливо и без слёз</span>
+      <span class="srv-time">45 мин</span><span class="srv-price">1 400 ₽</span>
+    </div>
+  </div>
+</section>
+
+<section id="masters" style="padding-top:0">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 / Команда</span>
+    <h2>Мастера</h2>
+  </div>
+  <div class="masters-grid reveal">
+    <div class="master">
+      <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80" alt="Барбер Максим" loading="lazy">
+      <div class="master-info"><b>Максим</b><span>Топ-барбер · 9 лет</span></div>
+    </div>
+    <div class="master">
+      <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=800&q=80" alt="Барбершоп" loading="lazy">
+      <div class="master-info"><b>Артём</b><span>Барбер · 6 лет</span></div>
+    </div>
+    <div class="master">
+      <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=80" alt="Инструменты" loading="lazy">
+      <div class="master-info"><b>Илья</b><span>Барбер · 4 года</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="quote" id="about">
+  <span class="sec-num reveal">03 / О нас</span>
+  <blockquote class="reveal">Хорошая стрижка не про волосы. Она про то, как ты выходишь за дверь и что делаешь дальше.</blockquote>
+  <cite class="reveal">— команда BRUT</cite>
+</section>
+
+<section class="booking" id="booking">
+  <div class="booking-info reveal">
+    <span class="sec-num">04 / Запись</span>
+    <h2>Онлайн-запись</h2>
+    <p>Выберите услугу и удобное время — подтверждение придёт в Telegram за час до визита.</p>
+    <div class="perks">
+      <div class="perk">Напиток включён в любую услугу</div>
+      <div class="perk">Бесплатная корректировка в течение 7 дней</div>
+      <div class="perk">Оплата картой, наличными или онлайн</div>
+      <div class="perk">Работаем без выходных, с 10:00 до 22:00</div>
+    </div>
+  </div>
+  <form id="bookForm" class="reveal">
+    <div class="form-field"><label>Имя</label><input type="text" name="name" placeholder="Ваше имя" required></div>
+    <div class="form-field"><label>Телефон</label><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></div>
+    <div class="form-field"><label>Услуга</label>
+      <select name="service">
+        <option>Мужская стрижка — 2 000 ₽</option>
+        <option>Стрижка бороды — 1 500 ₽</option>
+        <option>Опасное бритьё — 1 800 ₽</option>
+        <option>Комплекс — 3 100 ₽</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Дата и время</label><input type="datetime-local" name="when" required></div>
+    <button type="submit" class="btn">Записаться</button>
+    <div class="form-ok" id="formOk">✓ Заявка принята. Подтверждение придёт в Telegram</div>
+  </form>
+</section>
+
+<footer id="contacts">
+  <div class="foot-grid">
+    <div>
+      <div class="logo" style="margin-bottom:16px">BRUT</div>
+      <p>Барбершоп в центре Москвы.<br>Точно, чисто, по-мужски.</p>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <a href="tel:+74950000001">+7 (495) 000-00-01</a>
+      <a href="mailto:hi@brut.bar">hi@brut.bar</a>
+    </div>
+    <div>
+      <h4>Адрес</h4>
+      <p>Москва, ул. Тверская, 24</p>
+      <p>Ежедневно 10:00 — 22:00</p>
+    </div>
+    <div>
+      <h4>Соцсети</h4>
+      <a href="#">Telegram</a>
+      <a href="#">Instagram</a>
+      <a href="#">VK</a>
+    </div>
+  </div>
+  <div class="copy">
+    <span>© 2026 BRUT barbershop</span>
+    <span>Дизайн и разработка — Danik</span>
+  </div>
+</footer>
+
+<script>
+const tb=document.getElementById('topbar');
+addEventListener('scroll',()=>tb.classList.toggle('scrolled',scrollY>60));
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const burger=document.getElementById('burger'),mm=document.getElementById('mmenu');
+burger.addEventListener('click',()=>mm.classList.toggle('open'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+document.getElementById('bookForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('formOk').style.display='block';
+  e.target.querySelector('button').textContent='Отправлено ✓';
+});
+</script>
+</body>
+</html>

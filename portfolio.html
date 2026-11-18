@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danik — Web Development · Портфолио</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0b0a; --bg2:#121110; --card:#141311;
+  --cream:#ebe7df; --muted:#8f8a80;
+  --gold:#c8a165; --gold-dim:rgba(200,162,101,.35);
+  --line:rgba(235,231,223,.12);
+  --serif:'Playfair Display',serif; --sans:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#0c0b0a}
+
+.hero{padding:110px 5vw 70px;text-align:center;position:relative}
+.hero-kicker{font-size:11px;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);margin-bottom:26px}
+.hero h1{font-family:var(--serif);font-size:clamp(46px,8vw,104px);font-weight:600;letter-spacing:.14em;line-height:1.04}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+.hero-sub{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--muted);margin-top:26px}
+.hero-line{width:64px;height:1px;background:var(--gold);margin:38px auto 0}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:40px 5vw 90px;max-width:1500px;margin:0 auto}
+
+.card{background:var(--card);border:1px solid var(--line);padding:30px 28px 26px;display:flex;flex-direction:column;
+  transition:.45s;position:relative}
+.card:hover{border-color:var(--gold-dim);transform:translateY(-8px)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:18px;margin-bottom:20px;
+  border-bottom:1px solid var(--line)}
+.card-num{font-size:11px;letter-spacing:.3em;color:var(--gold);white-space:nowrap}
+.card-tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:right;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card h2{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1.05;margin-bottom:8px}
+.card-desc{font-size:13px;color:var(--muted);margin-bottom:26px;min-height:40px}
+
+.mockup{position:relative;margin:6px 0 34px}
+.browser{border-radius:10px 10px 0 0;overflow:hidden;border:1px solid rgba(235,231,223,.16);
+  box-shadow:0 30px 50px -24px rgba(0,0,0,.75)}
+.browser-bar{display:flex;align-items:center;gap:6px;background:#1d1c1a;padding:8px 12px}
+.browser-bar i{width:8px;height:8px;border-radius:50%;background:#3c3a36}
+.browser-bar i:first-child{background:#c96a5b}
+.browser-bar i:nth-child(2){background:#c8a165}
+.browser-bar i:nth-child(3){background:#7ba05f}
+.browser-url{flex:1;margin-left:10px;font-size:9px;color:#6e6960;letter-spacing:.08em;background:#141311;
+  border-radius:4px;padding:3px 10px;font-family:var(--sans)}
+.browser-body{aspect-ratio:16/10;position:relative;display:flex;flex-direction:column}
+
+.site{position:absolute;inset:0;display:flex;flex-direction:column;padding:14px 18px}
+.site-dark{background:linear-gradient(160deg,#241b12 0%,#0d0a08 70%),#0d0a08;color:var(--cream)}
+.site-mono{background:linear-gradient(120deg,#181818 0%,#050505 70%);color:#f2f2f2}
+.site-light{background:linear-gradient(150deg,#efe9df 0%,#e2d9c9 100%);color:#211d18}
+.site-steel{background:linear-gradient(140deg,#1c2129 0%,#0b0d10 70%);color:#f0f2f5}
+.site-cream{background:linear-gradient(140deg,#1a1916 0%,#101010 70%);color:#ece8e1}
+
+.mini-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto;position:relative;z-index:2}
+.mini-logo{font-family:var(--serif);font-size:11px;letter-spacing:.22em;font-weight:600}
+.mini-links{display:flex;gap:10px;font-size:7px;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.mini-btn{font-size:6.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+.mini-hero{text-align:center;position:relative;z-index:2}
+.mini-h{font-family:var(--serif);font-size:19px;letter-spacing:.12em;font-weight:600;line-height:1.15}
+.mini-p{font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin:6px 0 9px}
+.mini-cta{display:inline-block;font-size:7px;letter-spacing:.16em;text-transform:uppercase;padding:5px 13px;border-radius:2px}
+.mini-photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.5}
+.t-gold{color:#c9a365}.b-gold{border:1px solid #c9a165;color:#c9a165}.f-gold{background:#c9a165;color:#0d0a08}
+.t-white{color:#f2f2f2}.b-white{border:1px solid #f2f2f2;color:#f2f2f2}.f-white{background:#f2f2f2;color:#0a0a0a}
+.t-ink{color:#211d18}.b-ink{border:1px solid #211d18;color:#211d18}.f-ink{background:#211d18;color:#ece7df}
+.t-amber{color:#f2a33c}.b-amber{border:1px solid #f2a33c;color:#f2a33c}.f-amber{background:#f2a33c;color:#0b0d10}
+.t-cream{color:#cbb787}.b-cream{border:1px solid #cbb787;color:#cbb787}.f-cream{background:#cbb787;color:#0e0e10}
+
+.phone{position:absolute;right:-8px;bottom:-16px;width:58px;aspect-ratio:9/18.5;border-radius:9px;
+  border:1px solid rgba(235,231,223,.25);overflow:hidden;box-shadow:0 24px 38px -18px rgba(0,0,0,.8);z-index:3}
+.phone-screen{position:absolute;inset:2.5px;border-radius:6px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;text-align:center;padding:6px}
+.phone-notch{position:absolute;top:2.5px;left:50%;transform:translateX(-50%);width:18px;height:3.5px;border-radius:3px;background:rgba(0,0,0,.75);z-index:2}
+.phone-logo{font-family:var(--serif);font-size:8px;letter-spacing:.2em;font-weight:600}
+.phone-p{font-size:4.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.phone-cta{font-size:4.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:20px;border-top:1px solid var(--line);margin-bottom:24px}
+.feat{display:flex;flex-direction:column;gap:6px}
+.feat svg{stroke:var(--gold)}
+.feat b{font-size:12px;font-weight:500;line-height:1.3}
+.feat span{font-size:10px;color:var(--muted);line-height:1.35}
+
+.card-link{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding:14px 4px 2px;
+  border-top:1px solid var(--line);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);transition:.35s}
+.card-link .arr{transition:.35s;font-family:var(--serif);font-size:17px}
+.card:hover .card-link .arr{transform:translateX(8px)}
+.card-link:hover{color:var(--cream)}
+
+.brand{border:1px solid var(--line);padding:38px 30px;display:flex;flex-direction:column;justify-content:center;
+  position:relative;background:linear-gradient(150deg,#121110,#0a0908);min-height:340px}
+.brand::before{content:'';position:absolute;left:0;top:24px;bottom:24px;width:1px;background:var(--gold)}
+.brand-kicker{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.brand h3{font-family:var(--serif);font-size:31px;font-weight:600;line-height:1.15;margin-bottom:14px}
+.brand p{font-size:12px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:30px;line-height:2}
+.brand-cta{display:inline-flex;align-items:center;gap:14px;border:1px solid var(--gold);color:var(--gold);
+  padding:14px 30px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;transition:.35s;align-self:flex-start}
+.brand-cta:hover{background:var(--gold);color:#0c0b0a}
+
+footer{border-top:1px solid var(--line);padding:34px 5vw;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+footer a{color:var(--gold);transition:.3s}
+footer a:hover{color:var(--cream)}
+
+.reveal{opacity:0;transform:translateY(36px);transition:.9s cubic-bezier(.2,.6,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:1150px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){
+  .grid{grid-template-columns:1fr}
+  .hero{padding-top:90px}
+  .hero h1{font-size:clamp(28px,9.5vw,60px);letter-spacing:.1em}
+  .hero-sub{letter-spacing:.24em}
+  .card h2{font-size:30px}
+  .card-tag{display:none}
+  .feats{gap:8px}
+  .phone{width:52px;right:-4px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-kicker">Портфолио · 2026</div>
+  <h1>WEB <em>DEVELOPMENT</em></h1>
+  <p class="hero-sub">Создаю современные сайты для бизнеса</p>
+  <div class="hero-line"></div>
+</header>
+
+<main class="grid">
+
+  <!-- 01 РЕСТОРАН -->
+  <article class="card reveal">
+    <div class="card-head">
+      <span class="card-num">01 / 05</span>
+      <span class="card-tag">Эстетика · Атмосфера · Вкус</span>
+    </div>
+    <h2>Ресторан</h2>
+    <p class="card-desc">Премиальный сайт для ресторана: меню, галерея и бронирование столиков</p>
+    <div class="mockup">
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">lumiere.ru</span></div>
+        <div class="browser-body">
+          <div class="mini-photo" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=70')"></div>
+          <div class="site site-dark">
+            <div class="mini-nav">
+              <span class="mini-logo t-gold">ЛЮМЬЕ</span>
+              <div class="mini-links"><span>О нас</span><span>Меню</span><span>Контакты</span></div>
+              <span class="mini-btn b-gold">Бронь</span>
+            </div>
+            <div class="mini-hero">
+              <div class="mini-h">ЛЮМЬЕ</div>
+              <div class="mini-p">Ресторан авторской кухни</div>
+              <span class="mini-cta f-gold">Забронировать столик</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="phone-notch"></div>
+        <div class="phone-screen site-dark" style="background:#0d0a08">
+          <span class="phone-logo t-gold">ЛЮМЬЕ</span>
+          <span class="phone-p">Авторская кухня</span>
+          <span class="phone-cta f-gold">Бронь</span>
+        </div>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 3v7a3 3 0 0 0 6 0V3M7 10v11M14 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM16 3v18" transform="scale(.92) translate(1,0)"/></svg>
+        <b>Меню с ценами</b><span>и вкладками блюд</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 15h3"/></svg>
+        <b>Бронирование</b><span>столов онлайн</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <b>Галерея</b><span>интерьера и блюд</span>
+      </div>
+    </div>
+    <a class="card-link" href="restaurant.html" target="_blank">Открыть сайт <span class="arr">→</span></a>
+  </article>
+
+  <!-- 02 БАРБЕРШОП -->
+  <article class="card reveal">
+    <div class="card-head">
+      <span class="card-num">02 / 05</span>
+      <span class="card-tag">Стрижка · Борода · Стиль</span>
+    </div>
+    <h2>Барбершоп</h2>
+    <p class="card-desc">Стильный монохромный сайт с услугами, ценами и онлайн-записью</p>
+    <div class="mockup">
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">brut.bar</span></div>
+        <div class="browser-body">
+          <div class="mini-photo" style="background-image:url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=900&q=70');filter:grayscale(1)"></div>
+          <div class="site site-mono">
+            <div class="mini-nav">
+              <span class="mini-logo t-white">BRUT</span>
+              <div class="mini-links"><span>Услуги</span><span>Мастера</span><span>Контакты</span></div>
+              <span class="mini-btn b-white">Запись</span>
+            </div>
+            <div class="mini-hero">
+              <div class="mini-h">СТРИЖКА. БОРОДА.</div>
+              <div class="mini-p">Барбершоп · Москва</div>
+              <span class="mini-cta f-white">Записаться онлайн</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="phone-notch"></div>
+        <div class="phone-screen site-mono" style="background:#0a0a0a">
+          <span class="phone-logo t-white">BRUT</span>
+          <span class="phone-p">Barbershop</span>
+          <span class="phone-cta f-white">Запись</span>
+        </div>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 3v14a3 3 0 0 0 3 3M6 10h6M14 3v20M14 8h4M17 8v3a2 2 0 0 1-2 2h-1"/></svg>
+        <b>Услуги и цены</b><span>прозрачный прайс</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M9 15l2 2 4-4"/></svg>
+        <b>Онлайн-запись</b><span>выбор мастера и времени</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <b>Контакты и адрес</b><span>карта и соцсети</span>
+      </div>
+    </div>
+    <a class="card-link" href="barbershop.html" target="_blank">Открыть сайт <span class="arr">→</span></a>
+  </article>
+
+  <!-- 03 МАГАЗИН -->
+  <article class="card reveal">
+    <div class="card-head">
+      <span class="card-num">03 / 05</span>
+      <span class="card-tag">Стиль · Качество · Вы</span>
+    </div>
+    <h2>Магазин</h2>
+    <p class="card-desc">Светлый интернет-магазин одежды: каталог, корзина и доставка</p>
+    <div class="mockup">
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">atelier.shop</span></div>
+        <div class="browser-body">
+          <div class="site site-light">
+            <div class="mini-nav">
+              <span class="mini-logo t-ink">ATELIER</span>
+              <div class="mini-links"><span>Каталог</span><span>Доставка</span><span>Контакты</span></div>
+              <span class="mini-btn b-ink">Корзина · 0</span>
+            </div>
+            <div class="mini-hero">
+              <div class="mini-h" style="font-style:italic">Стиль. Качество. Вы.</div>
+              <div class="mini-p">Новая коллекция FW 26</div>
+              <span class="mini-cta f-ink">Перейти в каталог →</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:auto;position:relative;z-index:2">
+              <span style="flex:1;height:26px;background:#d8cfc0;border-radius:2px"></span>
+              <span style="flex:1;height:26px;background:#cfc5b4;border-radius:2px"></span>
+              <span style="flex:1;height:26px;background:#d8cfc0;border-radius:2px"></span>
+              <span style="flex:1;height:26px;background:#c4b9a6;border-radius:2px"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="phone-notch"></div>
+        <div class="phone-screen" style="background:#ece7df">
+          <span class="phone-logo t-ink">ATELIER</span>
+          <span class="phone-p" style="color:#8a8378">Sale −20%</span>
+          <span class="phone-cta f-ink">В корзину</span>
+        </div>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M6.5 6.5h.01M17.5 17.5h.01"/></svg>
+        <b>Удобный каталог</b><span>категории и фильтры</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <b>Безопасная оплата</b><span>карта и СБП</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>
+        <b>Быстрая доставка</b><span>по всей России</span>
+      </div>
+    </div>
+    <a class="card-link" href="shop.html" target="_blank">Открыть сайт <span class="arr">→</span></a>
+  </article>
+
+  <!-- 04 АВТОСЕРВИС -->
+  <article class="card reveal">
+    <div class="card-head">
+      <span class="card-num">04 / 05</span>
+      <span class="card-tag">Диагностика · Ремонт · Обслуживание</span>
+    </div>
+    <h2>Автосервис</h2>
+    <p class="card-desc">Индустриальный сайт сервиса: услуги, цены и запись на ремонт</p>
+    <div class="mockup">
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">avtoprofi.ru</span></div>
+        <div class="browser-body">
+          <div class="mini-photo" style="background-image:url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=70')"></div>
+          <div class="site site-steel">
+            <div class="mini-nav">
+              <span class="mini-logo t-amber">АВТОПРОФИ</span>
+              <div class="mini-links"><span>Услуги</span><span>Цены</span><span>Контакты</span></div>
+              <span class="mini-btn b-amber">Запись</span>
+            </div>
+            <div class="mini-hero">
+              <div class="mini-h" style="letter-spacing:.04em">Профессиональный автосервис</div>
+              <div class="mini-p">Гарантия до 2 лет</div>
+              <span class="mini-cta f-amber">Записаться онлайн</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="phone-notch"></div>
+        <div class="phone-screen site-steel" style="background:#0b0d10">
+          <span class="phone-logo t-amber">ПРОФИ</span>
+          <span class="phone-p">Сервис</span>
+          <span class="phone-cta f-amber">Запись</span>
+        </div>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-3.2 3.2-2.4-2.4 3.2-3.2z"/></svg>
+        <b>Услуги и цены</b><span>14 направлений</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M9 15l2 2 4-4"/></svg>
+        <b>Онлайн-запись</b><span>за 1 минуту</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <b>Гарантия</b><span>на все работы</span>
+      </div>
+    </div>
+    <a class="card-link" href="autoservice.html" target="_blank">Открыть сайт <span class="arr">→</span></a>
+  </article>
+
+  <!-- 05 ПОРТФОЛИО -->
+  <article class="card reveal">
+    <div class="card-head">
+      <span class="card-num">05 / 05</span>
+      <span class="card-tag">Работы · Обо мне · Контакты</span>
+    </div>
+    <h2>Портфолио</h2>
+    <p class="card-desc">Личный сайт-визитка с сеткой работ и связью в один клик</p>
+    <div class="mockup">
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="browser-url">danik.dev</span></div>
+        <div class="browser-body">
+          <div class="mini-photo" style="background-image:url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=900&q=70');opacity:.35"></div>
+          <div class="site site-cream">
+            <div class="mini-nav">
+              <span class="mini-logo t-cream">danik.dev</span>
+              <div class="mini-links"><span>Обо мне</span><span>Работы</span><span>Услуги</span></div>
+              <span class="mini-btn b-cream">Связаться</span>
+            </div>
+            <div class="mini-hero">
+              <div class="mini-h" style="font-style:italic">Сайты, которые вдохновляют</div>
+              <div class="mini-p">Веб-разработчик · Москва</div>
+              <span class="mini-cta f-cream">Смотреть работы</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone"><div class="phone-notch"></div>
+        <div class="phone-screen site-cream" style="background:#0e0e10">
+          <span class="phone-logo t-cream">danik</span>
+          <span class="phone-p">web·dev</span>
+          <span class="phone-cta f-cream">Написать</span>
+        </div>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <b>Сетка работ</b><span>с переходом на сайты</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+        <b>Обо мне</b><span>навыки и опыт</span>
+      </div>
+      <div class="feat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        <b>Контакты</b><span>и форма связи</span>
+      </div>
+    </div>
+    <a class="card-link" href="index.html" target="_blank">Открыть сайт <span class="arr">→</span></a>
+  </article>
+
+  <!-- BRAND -->
+  <aside class="brand reveal">
+    <span class="brand-kicker">Web Development</span>
+    <h3>Нужен сайт<br>для вашего бизнеса?</h3>
+    <p>Создаю современные сайты<br>под ключ — от идеи до запуска</p>
+    <a class="brand-cta" href="index.html#contact" target="_blank">Связаться →</a>
+  </aside>
+
+</main>
+
+<footer>
+  <span>© 2026 · Danik — Web Development</span>
+  <a href="index.html" target="_blank">danik.dev →</a>
+</footer>
+
+<script>
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
